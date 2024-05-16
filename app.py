@@ -147,16 +147,19 @@ if user_menu == 'Athlete wise Analysis':
                      'Volleyball', 'Synchronized Swimming', 'Table Tennis', 'Baseball',
                      'Rhythmic Gymnastics', 'Rugby Sevens',
                      'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
-    for sport in famous_sports:
-        temp_df = athlete_df[athlete_df['Sport'] == sport]
-        x.append(temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna())
-        name.append(sport)
-
+      import plotly.express as px
     
-
-    fig = px.histogram(x, x="Age", color=name, marginal="rug", nbins=30)
+    # Create a DataFrame with Age and Sport columns
+    data = []
+    for i, sport in enumerate(name):
+        for age in x[i]:
+            data.append({'Age': age, 'Sport': sport})
+    
+    # Create histogram using Plotly
+    fig = px.histogram(data, x="Age", color="Sport", marginal="rug", nbins=30)
     fig.update_layout(autosize=False, width=1000, height=600)
     st.plotly_chart(fig)
+
 
     sport_list = df['Sport'].unique().tolist()
     sport_list.sort()
