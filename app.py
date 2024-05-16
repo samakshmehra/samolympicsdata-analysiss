@@ -147,8 +147,7 @@ if user_menu == 'Athlete wise Analysis':
                      'Volleyball', 'Synchronized Swimming', 'Table Tennis', 'Baseball',
                      'Rhythmic Gymnastics', 'Rugby Sevens',
                      'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
-      import plotly.express as px
-    
+     
     # Create a DataFrame with Age and Sport columns
     data = []
     for i, sport in enumerate(name):
