@@ -2,4 +2,4 @@ streamlit
 plotly
 seaborn
 matplotlib
-scipy
+scipy==1.7.0
