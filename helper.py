@@ -78,14 +78,7 @@ def country_event_heatmap(df,country):
     pt = new_df.pivot_table(index='Sport', columns='Year', values='Medal', aggfunc='count').fillna(0)
     return pt
 
-def weight_v_height(df,sport):
-    athlete_df = df.drop_duplicates(subset=['Name', 'region'])
-    athlete_df['Medal'].fillna('No Medal', inplace=True)
-    if sport != 'Overall':
-        temp_df = athlete_df[athlete_df['Sport'] == sport]
-        return temp_df
-    else:
-        return athlete_df
+
     
 def men_vs_women(df):
     athlete_df = df.drop_duplicates(subset=['Name', 'region'])
