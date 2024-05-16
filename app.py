@@ -19,7 +19,7 @@ years = [
 ]
 
 df = df[df['Year'].isin(years)]
-df = df[df['Season'] != 'Winter']
+
 
 df = preprocessor.preprocess(df,region_df)
 
