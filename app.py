@@ -148,17 +148,7 @@ if user_menu == 'Athlete wise Analysis':
                      'Rhythmic Gymnastics', 'Rugby Sevens',
                      'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
      
-    # Create a DataFrame with Age and Sport columns
-    data = []
-    for i, sport in enumerate(name):
-        for age in x[i]:
-            data.append({'Age': age, 'Sport': sport})
     
-    # Create histogram using Plotly
-    fig = px.histogram(data, x="Age", color="Sport", marginal="rug", nbins=30)
-    fig.update_layout(autosize=False, width=1000, height=600)
-    st.plotly_chart(fig)
-
 
     sport_list = df['Sport'].unique().tolist()
     sport_list.sort()
