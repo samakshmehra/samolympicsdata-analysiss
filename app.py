@@ -140,30 +140,7 @@ if user_menu == 'Athlete wise Analysis':
     st.plotly_chart(fig)
    
     
-    # Create DataFrame for age distributions
-    age_distribution = pd.DataFrame({
-        'Overall Age': athlete_df['Age'].dropna(),
-        'Gold Medalist': athlete_df[athlete_df['Medal'] == 'Gold']['Age'].dropna(),
-        'Silver Medalist': athlete_df[athlete_df['Medal'] == 'Silver']['Age'].dropna(),
-        'Bronze Medalist': athlete_df[athlete_df['Medal'] == 'Bronze']['Age'].dropna()
-    })
-    
-    # Melt DataFrame to long format
-    age_distribution_melted = age_distribution.melt(var_name='Category', value_name='Age')
-    
-    # Plot overall age distribution
-    fig = px.line(age_distribution_melted, x=age_distribution_melted.index, y='Age', color='Category')
-    fig.update_layout(autosize=False, width=1000, height=600)
-    st.title("Distribution of Age")
-    st.plotly_chart(fig)
-    
-    famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics', 'Swimming', 
-                 'Badminton', 'Sailing', 'Gymnastics', 'Art Competitions', 'Handball', 
-                 'Weightlifting', 'Wrestling', 'Water Polo', 'Hockey', 'Rowing', 'Fencing', 
-                 'Shooting', 'Boxing', 'Taekwondo', 'Cycling', 'Diving', 'Canoeing', 'Tennis', 
-                 'Golf', 'Softball', 'Archery', 'Volleyball', 'Synchronized Swimming', 
-                 'Table Tennis', 'Baseball', 'Rhythmic Gymnastics', 'Rugby Sevens', 
-                 'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
+   
 
     
 
