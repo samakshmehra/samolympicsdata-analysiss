@@ -157,7 +157,7 @@ if user_menu == 'Athlete wise Analysis':
     st.title("Distribution of Age")
     st.plotly_chart(fig)
     
-  famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics', 'Swimming', 
+    famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics', 'Swimming', 
                  'Badminton', 'Sailing', 'Gymnastics', 'Art Competitions', 'Handball', 
                  'Weightlifting', 'Wrestling', 'Water Polo', 'Hockey', 'Rowing', 'Fencing', 
                  'Shooting', 'Boxing', 'Taekwondo', 'Cycling', 'Diving', 'Canoeing', 'Tennis', 
@@ -165,72 +165,22 @@ if user_menu == 'Athlete wise Analysis':
                  'Table Tennis', 'Baseball', 'Rhythmic Gymnastics', 'Rugby Sevens', 
                  'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
 
-# Create a DataFrame for sports age distribution
-sports_age_distribution = pd.DataFrame(columns=['Age', 'Sport'])
-
-for sport in famous_sports:
-    temp_df = athlete_df[athlete_df['Sport'] == sport]
-    gold_ages = temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna()
-    if not gold_ages.empty:
-        sports_age_distribution = sports_age_distribution.append(
-            pd.DataFrame({'Age': gold_ages, 'Sport': sport})
-        )
-
-# Plotting the age distribution per sport using a violin plot
-fig = px.violin(sports_age_distribution, x='Sport', y='Age', box=True, title='Age Distribution of Gold Medalists per Sport')
-fig.update_layout(autosize=False, width=1000, height=600)
-st.title("Age Distribution of Gold Medalists per Sport")
-st.plotly_chart(fig)
+    # Create a DataFrame for sports age distribution
+    sports_age_distribution = pd.DataFrame(columns=['Age', 'Sport'])
     
-    # Plot age distribution by sport
-    fig = px.line(sports_age_distribution, x=sports_age_distribution.index, y='Age', color='Sport')
+    for sport in famous_sports:
+        temp_df = athlete_df[athlete_df['Sport'] == sport]
+        gold_ages = temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna()
+        if not gold_ages.empty:
+            sports_age_distribution = sports_age_distribution.append(
+                pd.DataFrame({'Age': gold_ages, 'Sport': sport})
+            )
+    
+    # Plotting the age distribution per sport using a violin plot
+    fig = px.violin(sports_age_distribution, x='Sport', y='Age', box=True, title='Age Distribution of Gold Medalists per Sport')
     fig.update_layout(autosize=False, width=1000, height=600)
-    st.title("Distribution of Age wrt Sports (Gold Medalist)")
-    st.plotly_chart(fig)
-    
-    
-    # athlete_df = df.drop_duplicates(subset=['Name', 'region'])
-
-    # x1 = athlete_df['Age'].dropna()
-    # x2 = athlete_df[athlete_df['Medal'] == 'Gold']['Age'].dropna()
-    # x3 = athlete_df[athlete_df['Medal'] == 'Silver']['Age'].dropna()
-    # x4 = athlete_df[athlete_df['Medal'] == 'Bronze']['Age'].dropna()
-
-    # fig = ff.px.line([x1, x2, x3, x4], ['Overall Age', 'Gold Medalist', 'Silver Medalist', 'Bronze Medalist'],show_hist=False, show_rug=False)
-    # fig.update_layout(autosize=False,width=1000,height=600)
-    # st.title("Distribution of Age")
-    # st.plotly_chart(fig)
-
-    # x = []
-    # name = []
-    # famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics',
-    #                  'Swimming', 'Badminton', 'Sailing', 'Gymnastics',
-    #                  'Art Competitions', 'Handball', 'Weightlifting', 'Wrestling',
-    #                  'Water Polo', 'Hockey', 'Rowing', 'Fencing',
-    #                  'Shooting', 'Boxing', 'Taekwondo', 'Cycling', 'Diving', 'Canoeing',
-    #                  'Tennis', 'Golf', 'Softball', 'Archery',
-    #                  'Volleyball', 'Synchronized Swimming', 'Table Tennis', 'Baseball',
-    #                  'Rhythmic Gymnastics', 'Rugby Sevens',
-    #                  'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
-    # for sport in famous_sports:
-    #     temp_df = athlete_df[athlete_df['Sport'] == sport]
-    #     x.append(temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna())
-    #     name.append(sport)
-
-    # fig = px.line(x, name, show_hist=False, show_rug=False)
-    # fig.update_layout(autosize=False, width=1000, height=600)
-    # st.title("Distribution of Age wrt Sports(Gold Medalist)")
-    # st.plotly_chart(fig)
-
-    # sport_list = df['Sport'].unique().tolist()
-    # sport_list.sort()
-    # sport_list.insert(0, 'Overall')
-
-    # st.title("Men Vs Women Participation Over the Years")
-    # final = helper.men_vs_women(df)
-    # fig = px.line(final, x="Year", y=["Male", "Female"])
-    # fig.update_layout(autosize=False, width=1000, height=600)
-    # st.plotly_chart(fig)
+    st.title("Age Distribution of Gold Medalists per Sport")
+    st.plotly_chart(fig)   
 
     
    
