@@ -123,48 +123,103 @@ if user_menu == 'Country-wise Analysis':
     st.pyplot(fig)
 
 if user_menu == 'Athlete wise Analysis':
+      
+    
+    # Assuming df is your DataFrame and is already loaded
     athlete_df = df.drop_duplicates(subset=['Name', 'region'])
-
-    x1 = athlete_df['Age'].dropna()
-    x2 = athlete_df[athlete_df['Medal'] == 'Gold']['Age'].dropna()
-    x3 = athlete_df[athlete_df['Medal'] == 'Silver']['Age'].dropna()
-    x4 = athlete_df[athlete_df['Medal'] == 'Bronze']['Age'].dropna()
-
-    fig = ff.px.line([x1, x2, x3, x4], ['Overall Age', 'Gold Medalist', 'Silver Medalist', 'Bronze Medalist'],show_hist=False, show_rug=False)
-    fig.update_layout(autosize=False,width=1000,height=600)
+    
+    # Create DataFrame for age distributions
+    age_distribution = pd.DataFrame({
+        'Overall Age': athlete_df['Age'].dropna(),
+        'Gold Medalist': athlete_df[athlete_df['Medal'] == 'Gold']['Age'].dropna(),
+        'Silver Medalist': athlete_df[athlete_df['Medal'] == 'Silver']['Age'].dropna(),
+        'Bronze Medalist': athlete_df[athlete_df['Medal'] == 'Bronze']['Age'].dropna()
+    })
+    
+    # Melt DataFrame to long format
+    age_distribution_melted = age_distribution.melt(var_name='Category', value_name='Age')
+    
+    # Plot overall age distribution
+    fig = px.line(age_distribution_melted, x=age_distribution_melted.index, y='Age', color='Category')
+    fig.update_layout(autosize=False, width=1000, height=600)
     st.title("Distribution of Age")
     st.plotly_chart(fig)
-
+    
+    # Creating age distribution per sport for gold medalists
     x = []
     name = []
-    famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics',
-                     'Swimming', 'Badminton', 'Sailing', 'Gymnastics',
-                     'Art Competitions', 'Handball', 'Weightlifting', 'Wrestling',
-                     'Water Polo', 'Hockey', 'Rowing', 'Fencing',
-                     'Shooting', 'Boxing', 'Taekwondo', 'Cycling', 'Diving', 'Canoeing',
-                     'Tennis', 'Golf', 'Softball', 'Archery',
-                     'Volleyball', 'Synchronized Swimming', 'Table Tennis', 'Baseball',
-                     'Rhythmic Gymnastics', 'Rugby Sevens',
-                     'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
+    famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics', 'Swimming', 'Badminton', 'Sailing', 'Gymnastics', 'Art Competitions', 'Handball', 'Weightlifting', 'Wrestling', 'Water Polo', 'Hockey', 'Rowing', 'Fencing', 'Shooting', 'Boxing', 'Taekwondo', 'Cycling', 'Diving', 'Canoeing', 'Tennis', 'Golf', 'Softball', 'Archery', 'Volleyball', 'Synchronized Swimming', 'Table Tennis', 'Baseball', 'Rhythmic Gymnastics', 'Rugby Sevens', 'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
+    
     for sport in famous_sports:
         temp_df = athlete_df[athlete_df['Sport'] == sport]
-        x.append(temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna())
-        name.append(sport)
-
-    fig = px.line(x, name, show_hist=False, show_rug=False)
+        if not temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna().empty:
+            x.append(temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna().tolist())
+            name.append(sport)
+    
+    # Create DataFrame for sports age distribution
+    sports_age_distribution = pd.DataFrame({
+        'Age': [item for sublist in x for item in sublist],
+        'Sport': [sport for sport, ages in zip(name, x) for _ in ages]
+    })
+    
+    # Plot age distribution by sport
+    fig = px.line(sports_age_distribution, x=sports_age_distribution.index, y='Age', color='Sport')
     fig.update_layout(autosize=False, width=1000, height=600)
-    st.title("Distribution of Age wrt Sports(Gold Medalist)")
+    st.title("Distribution of Age wrt Sports (Gold Medalist)")
     st.plotly_chart(fig)
-
+    
+    # Men vs Women participation over the years
     sport_list = df['Sport'].unique().tolist()
     sport_list.sort()
     sport_list.insert(0, 'Overall')
-
+    
     st.title("Men Vs Women Participation Over the Years")
     final = helper.men_vs_women(df)
     fig = px.line(final, x="Year", y=["Male", "Female"])
     fig.update_layout(autosize=False, width=1000, height=600)
     st.plotly_chart(fig)
+    # athlete_df = df.drop_duplicates(subset=['Name', 'region'])
+
+    # x1 = athlete_df['Age'].dropna()
+    # x2 = athlete_df[athlete_df['Medal'] == 'Gold']['Age'].dropna()
+    # x3 = athlete_df[athlete_df['Medal'] == 'Silver']['Age'].dropna()
+    # x4 = athlete_df[athlete_df['Medal'] == 'Bronze']['Age'].dropna()
+
+    # fig = ff.px.line([x1, x2, x3, x4], ['Overall Age', 'Gold Medalist', 'Silver Medalist', 'Bronze Medalist'],show_hist=False, show_rug=False)
+    # fig.update_layout(autosize=False,width=1000,height=600)
+    # st.title("Distribution of Age")
+    # st.plotly_chart(fig)
+
+    # x = []
+    # name = []
+    # famous_sports = ['Basketball', 'Judo', 'Football', 'Tug-Of-War', 'Athletics',
+    #                  'Swimming', 'Badminton', 'Sailing', 'Gymnastics',
+    #                  'Art Competitions', 'Handball', 'Weightlifting', 'Wrestling',
+    #                  'Water Polo', 'Hockey', 'Rowing', 'Fencing',
+    #                  'Shooting', 'Boxing', 'Taekwondo', 'Cycling', 'Diving', 'Canoeing',
+    #                  'Tennis', 'Golf', 'Softball', 'Archery',
+    #                  'Volleyball', 'Synchronized Swimming', 'Table Tennis', 'Baseball',
+    #                  'Rhythmic Gymnastics', 'Rugby Sevens',
+    #                  'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
+    # for sport in famous_sports:
+    #     temp_df = athlete_df[athlete_df['Sport'] == sport]
+    #     x.append(temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna())
+    #     name.append(sport)
+
+    # fig = px.line(x, name, show_hist=False, show_rug=False)
+    # fig.update_layout(autosize=False, width=1000, height=600)
+    # st.title("Distribution of Age wrt Sports(Gold Medalist)")
+    # st.plotly_chart(fig)
+
+    # sport_list = df['Sport'].unique().tolist()
+    # sport_list.sort()
+    # sport_list.insert(0, 'Overall')
+
+    # st.title("Men Vs Women Participation Over the Years")
+    # final = helper.men_vs_women(df)
+    # fig = px.line(final, x="Year", y=["Male", "Female"])
+    # fig.update_layout(autosize=False, width=1000, height=600)
+    # st.plotly_chart(fig)
 
     
    
