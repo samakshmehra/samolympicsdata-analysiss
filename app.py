@@ -165,22 +165,7 @@ if user_menu == 'Athlete wise Analysis':
                  'Table Tennis', 'Baseball', 'Rhythmic Gymnastics', 'Rugby Sevens', 
                  'Beach Volleyball', 'Triathlon', 'Rugby', 'Polo', 'Ice Hockey']
 
-    # Create a DataFrame for sports age distribution
-    sports_age_distribution = pd.DataFrame(columns=['Age', 'Sport'])
     
-    for sport in famous_sports:
-        temp_df = athlete_df[athlete_df['Sport'] == sport]
-        gold_ages = temp_df[temp_df['Medal'] == 'Gold']['Age'].dropna()
-        if not gold_ages.empty:
-            sports_age_distribution = sports_age_distribution.append(
-                pd.DataFrame({'Age': gold_ages, 'Sport': sport})
-            )
-    
-    # Plotting the age distribution per sport using a violin plot
-    fig = px.violin(sports_age_distribution, x='Sport', y='Age', box=True, title='Age Distribution of Gold Medalists per Sport')
-    fig.update_layout(autosize=False, width=1000, height=600)
-    st.title("Age Distribution of Gold Medalists per Sport")
-    st.plotly_chart(fig)   
 
     
    
